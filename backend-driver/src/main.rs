@@ -38,10 +38,10 @@ pub async fn main() {
         .layer(TraceLayer::new_for_http())
         .route("/docs", Scalar::new("/api.json").axum_route())
         .api_route(
-            "/api/v1/example",
+            "/api/v1/library-hours",
             post_with(
-                backend_routes::example,
-                route_documentation("Example route", "Example documentation"),
+                backend_routes::library::library_recent_hours,
+                route_documentation("Recent library opening hours", "Example documentation"),
             ),
         )
         .route("/api.json", get(openapi_spec));
