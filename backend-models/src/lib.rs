@@ -1,6 +1,7 @@
 // add models here
 
 use aide::OperationInput;
+use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Debug, Clone)]
@@ -10,7 +11,7 @@ pub struct LibraryOpeningHour {
     pub start: String,
 }
 
-#[derive(Deserialize, Debug, Clone)]
+#[derive(Deserialize, Debug, Clone, JsonSchema)]
 pub struct LibraryOpeningHourRequestBody {
     #[serde(default = "default_days")]
     pub days: u64,

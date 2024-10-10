@@ -1,10 +1,11 @@
 use std::collections::HashMap;
 use aide::axum::IntoApiResponse;
-use axum::Json;
 use backend_models::{LibraryOpeningHour, LibraryOpeningHourRequestBody, LibraryOpeningHourResponseEntry};
+use backend_utils::extractors::Json;
 use reqwest::StatusCode;
 use serde_json::json;
 
+#[axum::debug_handler]
 pub async fn library_recent_hours(
     Json(body): Json<LibraryOpeningHourRequestBody>,
 ) -> impl IntoApiResponse {

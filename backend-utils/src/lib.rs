@@ -1,5 +1,7 @@
 use aide::transform::TransformOperation;
 
+pub mod extractors;
+
 pub fn route_documentation<'a>(
     summary: &'a str,
     description: &'a str,
