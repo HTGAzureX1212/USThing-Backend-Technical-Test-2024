@@ -1,0 +1,6 @@
+# ignore directories
+.idea
+target
+
+# ignore files
+.env

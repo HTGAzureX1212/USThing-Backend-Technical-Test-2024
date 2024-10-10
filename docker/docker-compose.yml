@@ -1,0 +1,10 @@
+name: "USThing Backend Template"
+services:
+  server:
+    restart: always
+    build:
+      dockerfile: docker/Dockerfile
+      context: ..
+    container_name: usthing-backend-server
+    ports:
+      - "${PORT}:${PORT}"

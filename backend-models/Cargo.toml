@@ -1,0 +1,9 @@
+[package]
+name = "backend_models"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+aide = "0.13.4"
+axum = "0.7.7"
+serde = { version = "1.0.210", features = ["derive"] }
