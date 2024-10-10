@@ -1,9 +1,11 @@
-use std::collections::HashMap;
 use aide::axum::IntoApiResponse;
-use backend_models::{LibraryOpeningHour, LibraryOpeningHourRequestBody, LibraryOpeningHourResponseEntry};
+use backend_models::{
+    LibraryOpeningHour, LibraryOpeningHourRequestBody, LibraryOpeningHourResponseEntry,
+};
 use backend_utils::extractors::Json;
 use reqwest::StatusCode;
 use serde_json::json;
+use std::collections::HashMap;
 
 #[axum::debug_handler]
 pub async fn library_recent_hours(
@@ -64,13 +66,20 @@ pub async fn library_recent_hours(
 
     let result = match &*body.filter {
         "all" => {
-            let map = ground.iter().take(body.days as usize)
+            let map = ground
+                .iter()
+                .take(body.days as usize)
                 .enumerate()
-                .map(|(i, hour)| (hour.start.clone(), vec![
-                    LibraryOpeningHourResponseEntry::from(hour.clone()),
-                    LibraryOpeningHourResponseEntry::from(lg1[i].clone()),
-                    LibraryOpeningHourResponseEntry::from(lg5[i].clone()),
-                ]))
+                .map(|(i, hour)| {
+                    (
+                        hour.start.clone(),
+                        vec![
+                            LibraryOpeningHourResponseEntry::from(hour.clone()),
+                            LibraryOpeningHourResponseEntry::from(lg1[i].clone()),
+                            LibraryOpeningHourResponseEntry::from(lg5[i].clone()),
+                        ],
+                    )
+                })
                 .collect::<HashMap<_, _>>();
 
             json!({
@@ -79,7 +88,64 @@ pub async fn library_recent_hours(
                 "data": map
             })
         }
-        _ => unreachable!()
+        "G/F Entrance" => {
+            let map = ground
+                .iter()
+                .take(body.days as usize)
+                .enumerate()
+                .map(|(i, hour)| {
+                    (
+                        hour.start.clone(),
+                        LibraryOpeningHourResponseEntry::from(hour.clone()),
+                    )
+                })
+                .collect::<HashMap<_, _>>();
+
+            json!({
+                "code": 200,
+                "status": "OK",
+                "data": map
+            })
+        }
+        "Learning Commons" => {
+            let map = ground
+                .iter()
+                .take(body.days as usize)
+                .enumerate()
+                .map(|(i, hour)| {
+                    (
+                        hour.start.clone(),
+                        LibraryOpeningHourResponseEntry::from(lg1[i].clone()),
+                    )
+                })
+                .collect::<HashMap<_, _>>();
+
+            json!({
+                "code": 200,
+                "status": "OK",
+                "data": map
+            })
+        }
+        "LG5 Entrance" => {
+            let map = ground
+                .iter()
+                .take(body.days as usize)
+                .enumerate()
+                .map(|(i, hour)| {
+                    (
+                        hour.start.clone(),
+                        LibraryOpeningHourResponseEntry::from(lg5[i].clone()),
+                    )
+                })
+                .collect::<HashMap<_, _>>();
+
+            json!({
+                "code": 200,
+                "status": "OK",
+                "data": map
+            })
+        }
+        _ => unreachable!(),
     };
 
     (StatusCode::OK, Json(result))

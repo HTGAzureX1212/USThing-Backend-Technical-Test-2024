@@ -18,14 +18,17 @@ where
     }
 }
 
-pub enum DummyError {Dummy}
+pub enum DummyError {
+    Dummy,
+}
 
 impl IntoResponse for DummyError {
     fn into_response(self) -> Response {
         Json(json!({
             "code": 500,
             "status": "Internal server error",
-        })).into_response()
+        }))
+        .into_response()
     }
 }
 
